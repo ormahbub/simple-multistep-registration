@@ -368,23 +368,23 @@ document.addEventListener("DOMContentLoaded", function () {
     nextBtn.innerText = currentStep === totalSteps ? "REGISTER" : "NEXT";
 
     // Auto-send verification codes when reaching steps
-    if (currentStep === 3 && emailInput.value) {
-      // Auto-send email code after 1 second
-      setTimeout(() => {
-        if (!document.getElementById("email_code").value) {
-          sendEmailCode();
-        }
-      }, 1000);
-    }
+    // if (currentStep === 3 && emailInput.value) {
+    //   // Auto-send email code after 1 second
+    //   setTimeout(() => {
+    //     if (!document.getElementById("email_code").value) {
+    //       sendEmailCode();
+    //     }
+    //   }, 1000);
+    // }
 
-    if (currentStep === 4 && phoneInput.value) {
-      // Auto-send SMS code after 1 second
-      setTimeout(() => {
-        if (!document.getElementById("sms_code").value) {
-          sendSMSCode();
-        }
-      }, 1000);
-    }
+    // if (currentStep === 4 && phoneInput.value) {
+    //   // Auto-send SMS code after 1 second
+    //   setTimeout(() => {
+    //     if (!document.getElementById("sms_code").value) {
+    //       sendSMSCode();
+    //     }
+    //   }, 1000);
+    // }
   }
 
   // 9. Validate Step 1

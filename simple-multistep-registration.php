@@ -10,11 +10,27 @@ if (!defined('ABSPATH')) exit;
 
 // Enqueue scripts and styles
 function smsr_enqueue_assets() {
-    // Font Awesome for icons
-    wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+    // Font Awesome with proper integrity checks
+    wp_enqueue_style('font-awesome', 
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+        array(),
+        '6.0.0'
+    );
+    
+    // Add integrity and crossorigin attributes
+    add_filter('style_loader_tag', function($html, $handle) {
+        if ($handle === 'font-awesome') {
+            $html = str_replace(
+                "media='all'",
+                "media='all' integrity='sha512-...' crossorigin='anonymous'",
+                $html
+            );
+        }
+        return $html;
+    }, 10, 2);
     
     // Plugin CSS
-    wp_enqueue_style('smsr-styles', plugins_url('style.css', __FILE__));
+    wp_enqueue_style('smsr-styles', plugins_url('style.css', __FILE__), array(), '2.0');
     
     // Plugin JS
     wp_enqueue_script('smsr-js', plugins_url('form-handler.js', __FILE__), array(), '2.0', true);
@@ -23,7 +39,8 @@ function smsr_enqueue_assets() {
     wp_localize_script('smsr-js', 'smsr_ajax', array(
         'ajax_url' => admin_url('admin-ajax.php'),
         'nonce' => wp_create_nonce('smsr_ajax_nonce'),
-        'site_url' => site_url()
+        'site_url' => site_url(),
+        'icons_path' => plugins_url('assets/icons/', __FILE__) // Optional: local icons
     ));
 }
 add_action('wp_enqueue_scripts', 'smsr_enqueue_assets');
@@ -113,13 +130,12 @@ function smsr_registration_form_shortcode() {
                 <h3>Terms and Conditions</h3>
                 <div class="terms-box">
                     <p>By registering, you agree to the following terms and conditions:</p>
-                    <ol>
-                        <li>You must provide accurate and complete information.</li>
-                        <li>You are responsible for maintaining the confidentiality of your account.</li>
-                        <li>You agree not to use the service for any illegal activities.</li>
-                        <li>We reserve the right to suspend or terminate accounts that violate our terms.</li>
-                        <li>Your personal information will be handled according to our privacy policy.</li>
-                    </ol>
+                    <ul>
+                        <li><a href="#">Download Privacy and Policy PDF</a></li>
+                        <li><a href="#">Download Terms and condition PDF</a></li>
+                        <li><a href="#">Download Privacy and Policy PDF</a></li>
+                        <li><a href="#">Download Terms and condition PDF</a></li>
+                    </ul>
                     <label class="checkbox-label">
                         <input type="checkbox" id="terms_agree" required> 
                         I have read and agree to the terms and conditions
