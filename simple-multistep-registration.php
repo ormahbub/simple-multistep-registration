@@ -4,6 +4,7 @@
  * Description: 4-step registration form with email/SMS verification using wp_mail() and free SMS APIs
  * Version: 2.0
  * Author: Mahbub
+ * Author URI: https://www.corevative.com/
  */
 
 if (!defined('ABSPATH')) exit;
